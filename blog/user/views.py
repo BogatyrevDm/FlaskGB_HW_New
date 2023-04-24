@@ -1,10 +1,24 @@
-from flask import Blueprint, render_template
-from flask_login import login_required
+from flask import Blueprint, render_template, redirect, url_for, request
+from flask_login import login_required, current_user
 from werkzeug.exceptions import NotFound
 
+from blog.forms.user import UserRegisterForm
 from blog.models import User
 
 user = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
+
+
+@user.route('register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('user.profile', pk=current_user.id))
+
+    form = UserRegisterForm(request.form)
+
+    return render_template(
+        'users/register.html',
+        form=form
+    )
 
 
 @user.route('/')
