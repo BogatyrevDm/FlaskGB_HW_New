@@ -6,8 +6,16 @@
 {% endblock %}
 
 {% block body %}
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <form action="POST">
-        <input type="hidden" name="csrf_token" value="{{ form.scrf_token() }}">
+        {{ form.csrf_token }}
+
         {% for field in ['first_name', 'last_name','email','password','confirm_password'] %}
             {{ render_field(form[field]) }}
         {% endfor %}
