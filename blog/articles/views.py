@@ -29,7 +29,7 @@ def article_detail(article_id):
     )
 
 
-@article.route('/', methods=['GET'])
+@article.route('/create/', methods=['GET'])
 @login_required
 def create_article_form():
     form = CreateArticleForm(request.form)
