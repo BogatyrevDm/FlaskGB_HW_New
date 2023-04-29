@@ -19,7 +19,7 @@ def article_list():
     )
 
 
-@article.route('/<int:article_id>', methods=['GET'])
+@article.route('/<int:article_id>/', methods=['GET'])
 def article_detail(article_id):
     _article: Article = Article.query.filter_by(
         id=article_id
@@ -67,6 +67,6 @@ def create_article():
         db.session.add(_article)
         db.session.commit()
 
-        return redirect(url_for('article.details', article_id=_article.id))
+        return redirect(url_for('article.article_detail', article_id=_article.id))
 
     return render_template('articles/create.html', form=form)
