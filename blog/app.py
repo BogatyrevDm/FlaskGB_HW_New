@@ -1,7 +1,10 @@
+from combojsonapi.event import EventPlugin
+from combojsonapi.permission import PermissionPlugin
 from flask import Flask
 from blog import commands
 from blog.extensions import db, login_manager, migrate, csrf, admin, api
 from combojsonapi.spec import ApiSpecPlugin
+
 
 def create_app() -> Flask:
     app = Flask(__name__)
@@ -20,17 +23,18 @@ def register_extensions(app):
     migrate.init_app(app, db, compare_type=True)
     csrf.init_app(app)
     admin.init_app(app)
-    api.plugins = [
-        ApiSpecPlugin(
-            app=app,
-            tags={
-                'Tag': 'Tag API',
-                'User': 'User API',
-                'Author': 'Author API',
-                'Article': 'Article API',
-            }
-        ),
-    ]
+    api.plugins = [EventPlugin(),
+                   PermissionPlugin(),
+                   ApiSpecPlugin(
+                       app=app,
+                       tags={
+                           'Tag': 'Tag API',
+                           'User': 'User API',
+                           'Author': 'Author API',
+                           'Article': 'Article API',
+                       }
+                   ),
+                   ]
     api.init_app(app)
 
     login_manager.login_view = 'auth.login'
