@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block body %}
-    <form action="POST">
+    <form method="POST" action="{{ url_for('article.create_article') }}">
         {{ form.csrf_token }}
 
-        {% for field in ['title', 'text'] %}
+        {% for field in ['title', 'text', 'tags'] %}
             {{ render_field(form[field]) }}
         {% endfor %}
         {{ form.submit(class="btn btn-primary mb-3") }}
