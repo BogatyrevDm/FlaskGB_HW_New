@@ -40,6 +40,9 @@ class Author(db.Model):
     user = relationship('User', back_populates='author')
     articles = relationship('Article', back_populates='author')
 
+    def __str__(self):
+        return self.user.email
+
 
 class Article(db.Model):
     __tablename__ = 'articles'
@@ -53,6 +56,9 @@ class Article(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     author = relationship('Author', back_populates='articles')
     tags = relationship('Tag', secondary=article_tag_associations_table, back_populates='articles')
+
+    def __str__(self):
+        return self.title
 
 
 class Tag(db.Model):

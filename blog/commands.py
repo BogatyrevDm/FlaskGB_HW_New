@@ -4,6 +4,15 @@ from werkzeug.security import generate_password_hash
 from blog.extensions import db
 
 
+@click.command("init-db")
+def init_db():
+    """
+    Run in your terminal:
+    flask init-db
+    """
+    db.create_all()
+
+
 @click.command('create-init-user')
 def create_init_user():
     from blog.models import User
@@ -11,7 +20,8 @@ def create_init_user():
 
     with app.app_context():
         db.session.add(
-            User(email='name@example.com', password=generate_password_hash('test123'))
+            User(first_name='user', last_name='userov', email='name@example.com',
+                 password=generate_password_hash('test123'))
         )
         db.session.commit()
 
@@ -29,3 +39,15 @@ def create_init_tags():
             db.session.add(tag)
         db.session.commit()
     click.echo(f'Created tags {", ".join(tags)}')
+
+
+@click.command('create-init-author')
+def create_init_author():
+    from blog.models import Author
+    from wsgi import app
+
+    with app.app_context():
+        db.session.add(
+            Author(user_id=1)
+        )
+        db.session.commit()

@@ -10,7 +10,7 @@ from blog.models import User
 user = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
 
 
-@user.route('register', methods=['GET', 'POST'])
+@user.route('register/', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('user.profile', pk=current_user.id))
